@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AQI Page</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header>
+		<h1>AQI Page</h1>
+	</header>
+	<main>
+		<section class="aqi-current">
+			<h2>Current AQI</h2>
+			<p id="aqi-value">-</p>
+			<p>Good: 0-50</p>
+			<p>Moderate: 51-100</p>
+			<p>Unhealthy for Sensitive Groups: 101-150</p>
+			<p>Unhealthy: 151-200</p>
+			<p>Very Unhealthy: 201-300</p>
+			<p>Hazardous: 301-500</p>
+		</section>
+		<section class="aqi-forecast">
+			<h2>AQI Forecast</h2>
+			<table id="aqi-forecast-table">
+				<thead>
+					<tr>
+						<th>Day</th>
+						<th>AQI</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Today</td>
+						<td id="today-aqi">-</td>
+					</tr>
+					<tr>
+						<td>Tomorrow</td>
+						<td id="tomorrow-aqi">-</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+	<script src="scripts.js"></script>
+</body>
+</html>

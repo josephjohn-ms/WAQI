@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="forecastWidget"></div>
+
+  <script>
+    $(document).ready(function() {
+      const selector = $("#forecastWidget");
+      const config = {
+        location: "New York,NY",
+        unitGroup: "us",
+        key: "45fbfed3d2d7e5d5a72ed20fcccaeac1"
+      };
+
+      const widget = new WeatherForecastWidget(selector, config);
+      widget.loadForecastData();
+    });
+
+    class WeatherForecastWidget {
+      constructor(selector, config) {
+        this.config = config;
+        this.selector = selector;
+        this.data = null;
+      }
+
+      loadForecastData() {
+        const uri =
+          "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast?";
+        uri += "unitGroup=" + this.config.unitGroup + "&locationMode=single&aggregateHours=24&contentType=json&iconSet=icons1&location=" + this.config.location + "&key=" + this.config.key;
+
+        $.get(uri, function(rawResult) {
+          this.data = rawResult;
+          this.refresh();
+        }.bind(this));
+      }
+
+      refresh() {
+        if (!this.data) return;
+
+        const days = this.data.days;
+        const widgetHtml = days.map(day => {
+          return `
+            <div class='day'>
+              <div class='date'>${day.datetime}</div>
+              <div class='icon ${day.icon}'></div>
+              <div class='maxt'>${day.tempmax}°</div>
+              <div class='mint'>${day.tempmin}°</div>
+              <div class='precip'><span class='value'>${day.precip}</span>mm</div>
+              <div class='conditions'>${day.conditions}</div>
+            </div>
+          `;
+        }).join("");
+
+        this.selector.html(widgetHtml);
+      }
+    }
+  </script>
+</body>
+</html>

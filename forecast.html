@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Forecast</title>
+
+<link rel="stylesheet" type="text/css" href="stylesnew.css">
+</head>
+<body>
+
+<h2>Weather Forecast</h2>
+
+<label for="cityInput">Enter city name:</label>
+<input type="text" id="cityInput" value="kochi" >
+<button onclick="getForecast()">Get Forecast</button>
+
+<div id="forecast"></div>
+
+<script>
+function getForecast() {
+    const apiKey = '45fbfed3d2d7e5d5a72ed20fcccaeac1';
+    const city = document.getElementById('cityInput').value;
+
+    const url = `https://api.openweathermap.org/data/2.5/forecast?units=metric&q=${city}&appid=${apiKey}`;
+
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        displayForecast(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function displayForecast(data) {
+    const forecastDiv = document.getElementById('forecast');
+    forecastDiv.innerHTML = ''; // Clear previous forecast
+
+    const city = data.city.name;
+    const forecastList = data.list;
+
+    forecastDiv.innerHTML += `<h3>Forecast for ${city}</h3>`;
+
+    forecastList.forEach(forecast => {
+        const dateTime = forecast.dt_txt;
+        const temperature = forecast.main.temp;
+        const description = forecast.weather[0].description;
+        const weatherIcon = getWeatherIcon(forecast.weather[0].icon);
+
+        forecastDiv.innerHTML += `
+            <p>Date/Time: ${dateTime}</p>
+            <p>Temperature: ${temperature}°C</p>
+            <p>Description: ${description}</p>
+            <img src="${weatherIcon}" alt="${description}">
+            <hr>
+        `;
+    });
+}
+
+function getWeatherIcon(iconCode) {
+    // Map OpenWeatherMap icon codes to corresponding images
+    const weatherIcons = {
+        '01d': 'clear.png',
+        '02d': 'few-clouds.png',
+        '03d': 'scattered-clouds.png',
+        '04d': 'broken-clouds.png',
+        '09d': 'shower-rain.png',
+        '10d': 'rain.png',
+        '11d': 'thunderstorm.png',
+        '13d': 'snow.png',
+        '50d': 'mist.png',
+        '10d': 'light-rain.png'
+    };
+
+    return `newimages/${weatherIcons[iconCode]}`;
+}
+//keyboard enter  search fn
+placeInput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        getForecast();
+      }})
+</script>
+
+</body>
+</html>

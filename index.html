@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+  <title>Weather & Pollution Prediction</title>
+  <link rel="icon" href="images/W AQI Tree Logo.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <header>
+    <span class="menu-icon" onclick="toggleMenu()">☰</span>
+    <h1 id="mainh1">Weather & Pollution Prediction</h1>
+    <img src="images/W AQI Tree Logo.png" alt="Logo" style="max-height: 100px; align-items: right; margin-right: 20px;">
+  </header>
+
+  <nav style="display: flex;">
+    <a href="contact.html">Contact</a>
+    <a href="index.html#">Home</a>
+    <a href="about.html#">About</a>
+  </nav>
+  <div id="toggle-buttons">
+    <div class="toggle-button-container">
+      <div class="toggle-buttons">
+        <button onclick="toggleWeather()" class="active">Weather</button>
+        <button onclick="toggleAQI()">AQI</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="location-info">
+    <div id="current-location">
+      <strong>Current Location:</strong> <span id="userLocation">Loading...</span>
+    </div>
+    <div id="place-name">
+      <strong>District:</strong> <span id="userDistrict">Unable to retrieve location</span>
+    </div>
+  </div>
+  
+  <!-- forecast integration-->
+  <h2>Weather Forecast</h2>
+
+<label for="cityInput">Enter city name:</label>
+<input type="text" id="cityInput" value="userDistrict" >
+<button onclick="getForecast()">Get Forecast</button>
+
+<div id="forecast"></div>
+
+<script>
+  //code to get the user location
+  function toggleWeather() {
+  // Implement any logic for displaying weather information
+  document.getElementById('celsius').innerHTML = '32°C'; // Example: Change this line with your weather data
+}
+
+function toggleAQI() {
+  // Redirect to another page (you can replace 'aqi-page.html' with the actual page URL)
+  window.location.href = 'aqi1.html';
+}
+
+function toggleMenu() {
+  var nav = document.querySelector('nav');
+  nav.style.display = (nav.style.display === 'none' || nav.style.display === '') ? 'flex' : 'none';
+}
+
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        // Call the function to get district name based on coordinates
+        getDistrictName(latitude, longitude);
+
+        // Display the current location
+        document.getElementById('userLocation').innerHTML = `Latitude: ${latitude}, Longitude: ${longitude}`;
+      },
+      function (error) {
+        document.getElementById('userDistrict').innerHTML = 'Unable to retrieve location';
+      }
+    );
+  } else {
+    document.getElementById('userDistrict').innerHTML = 'Geolocation is not supported by this browser.';
+  }
+}
+
+function getDistrictName(latitude, longitude) {
+  var apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      var districtName = extractDistrict(data.address);
+      document.getElementById('userDistrict').innerHTML = districtName;
+    
+    // Set the userDistrict value as the default search input
+    const cityInput = document.getElementById('cityInput');
+      cityInput.value = districtName;
+    })
+    .catch(error => {
+      document.getElementById('userDistrict').innerHTML = 'Unable to retrieve district';
+    });
+}
+
+function extractDistrict(address) {
+  // Extract district information from the address object
+  if (address && address.county) {
+    return address.county;
+  } else if (address && address.state_district) {
+    return address.state_district;
+  } else {
+    return 'Unknown District';
+  }
+}
+
+getUserLocation();
+
+// fn to get the weather forecast
+function getForecast() {
+    const apiKey = '45fbfed3d2d7e5d5a72ed20fcccaeac1';
+    const city = document.getElementById('cityInput').value;
+
+    const url = `https://api.openweathermap.org/data/2.5/forecast?units=metric&q=${city}&appid=${apiKey}`;
+
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        displayForecast(data);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function displayForecast(data) {
+    const forecastDiv = document.getElementById('forecast');
+    forecastDiv.innerHTML = ''; // Clear previous forecast
+
+    const city = data.city.name;
+    const forecastList = data.list;
+
+    forecastDiv.innerHTML += `<h3>Forecast for ${city}</h3>`;
+
+    forecastList.forEach(forecast => {
+        const dateTime = forecast.dt_txt;
+        const temperature = forecast.main.temp;
+        const description = forecast.weather[0].description;
+        const weatherIcon = getWeatherIcon(forecast.weather[0].icon);
+
+        forecastDiv.innerHTML += `
+          <div class="forecast-box">
+            <p>Date/Time: ${dateTime}</p>
+            <p>Temperature: ${temperature}°C</p>
+            <p>Description: ${description}</p>
+            <img src="${weatherIcon}" alt="${description}">
+            <hr>
+          </div>
+        `;
+    });
+}
+
+function getWeatherIcon(iconCode) {
+    // Map OpenWeatherMap icon codes to corresponding images
+    const weatherIcons = {
+        '01d': 'clear.png',
+        '02d': 'few-clouds.png',
+        '03d': 'scattered-clouds.png',
+        '04d': 'broken-clouds.png',
+        '09d': 'shower-rain.png',
+        '10d': 'rain.png',
+        '11d': 'thunderstorm.png',
+        '13d': 'snow.png',
+        '50d': 'mist.png',
+        '10n': 'light-rain.png',
+        '01n': 'clear.png',
+        '02n': 'few-clouds.png',
+        '03n': 'scattered-clouds.png',
+        '04n': 'broken-clouds.png',
+        '09n': 'shower-rain.png',
+        '10n': 'rain.png',
+        '11n': 'thunderstorm.png',
+        '13n': 'snow.png',
+        '50n': 'mist.png',
+        '10n': 'light-rain.png'
+    };
+
+    return `newimages/${weatherIcons[iconCode]}`;
+}
+//keyboard enter  search fn
+placeInput.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        getForecast();
+      }})
+
+      window.addEventListener('DOMContentLoaded', getUserLocation);
+</script>
+  <!--
+    <div class="card">
+    <div class = "search">
+        <input type="text" placeholder="enter city name"
+        spellcheck="false">
+        <button><img src="images/search.png"></button>
+    </div>
+    <div class = "weather">
+        <img src = "images/rain.png" class="weather-icon">
+        <h1 class="temp">22°C</h1>
+        <h2 class="city"> New York</h2>
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity.png">
+                <div>
+                    <p class ="humidity">50%</p>
+                    <p>Humidity</p>
+                </div>
+            </div>
+       
+            <div class="col">
+                <img src="images/wind.png">
+                <div>
+                    <p class ="wind">15 km/h</p>
+                    <p>Wind Speed</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="forecast-container">
+      <div class="forecast">
+          <div class="forecast1"></div>
+          <div class="forecast2"></div>
+      </div>
+  </div>
+</div>
+   This div 
+    
+     <div>
+    <h1 id="celsius"> 32°C</h1>
+  </div>
+    is for cards-->
+  <!--
+  <div id="dayCards">
+    <div class="day_cards">
+      <h1>SUN</h1>
+      <img src="images/Cloudy with Sun.png" alt="Sun Image">
+    </div>
+    <div class="day_cards">
+      <h1>MON</h1>
+      <img src="images/Sunny Rainy Day.png" alt="Sun Image">
+    </div>
+    <div class="day_cards">
+      <h1>TUE</h1>
+      <img src="images/thunderstorm.png" alt="Sun Image">
+    </div>
+    <div class="day_cards">
+      <h1>WED</h1>
+      <img src="images/Storm.png" alt="Sun Image">
+    </div>
+    <div class="day_cards">
+      <h1>THU</h1>
+      <img src="images/Cloudy.png" alt="Sun Image">
+    </div>
+    <div class="day_cards">
+      <h1>FRI</h1>
+      <img src="images/Cloudy with Sun.png" alt="Sun Image">
+    </div>
+    <div class="day_cards">
+      <h1>SAT</h1>
+      <img src="images/Sunny.png" alt="Sun Image">
+    </div>
+  </div>
+
+<script>
+  const apiKey = '0ab46fd5873c3d9c5f99a80fb5d789d8';
+const apiUrlForecast = "https://api.openweathermap.org/data/2.5/onecall?units=metric&q=";
+
+const forecast1 = document.querySelector(".forecast1");
+const forecast2 = document.querySelector(".forecast2");
+
+async function checkForecast(city) {
+    const response = await fetch(`${apiUrlForecast}${city}&appid=${apiKey}&exclude=current,minutely,hourly,alerts`);
+    const data = await response.json();
+
+    console.log(data);
+
+    let day1 = data.daily[0];
+    let day2 = data.daily[1];
+
+    let day1Icon = getWeatherIcon(day1.weather[0].main);
+    let day2Icon = getWeatherIcon(day2.weather[0].main);
+
+    forecast1.innerHTML = `Day 1: ${day1.temp.day}°C <img src="${day1Icon}">`;
+    forecast2.innerHTML = `Day 2: ${day2.temp.day}°C <img src="${day2Icon}">`;
+}
+
+function getWeatherIcon(weather) {
+    switch (weather) {
+        case "Clouds":
+            return "images/clouds.png";
+        case "Clear":
+            return "images/clear.png";
+        case "Rain":
+            return "images/rain.png";
+        case "Drizzle":
+            return "images/drizzle.png";
+        case "Mist":
+            return "images/mist.png";
+        default:
+            return "";
+    }
+}
+
+// Ensure that this function is called when the search button is clicked
+searchBtn.addEventListener("click", () => {
+    checkForecast(searchBox.value);
+});
+
+
+-->
+  
+  
+</body>
+</html>

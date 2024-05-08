@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+  <title>Weather & Pollution Prediction</title>
+  <link rel="icon" href="images/W AQI Tree Logo.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="styleaqi.css">
+</head>
+<body>
+  <header>
+    <span class="menu-icon" onclick="toggleMenu()">☰</span>
+    <h1 id="mainh1">Weather & Pollution Prediction</h1>
+    <img src="images/W AQI Tree Logo.png" alt="Logo" style="max-height: 100px; align-items: right; margin-right: 20px;">
+  </header>
+
+  <nav style="display: flex;">
+    <a href="contact.html">Contact</a>
+    <a href="index.html#">Home</a>
+    <a href="about.html#">About</a>
+  </nav>
+
+  <br>
+  <br>
+  <br>
+  <!--
+      <p id="soon"> Coming Soon!!!</p>
+  -->
+ 
+<!-- the code which fetches the real time data
+   <h1>Pollution Prediction</h1>
+ <div id="pollutionData"></div>
+
+ <script>
+     // Fetch data from API
+     fetch('https://api.waqi.info/feed/here/?token=8ad82558bf8d0036a9a4737f1fe5d71b1d5a5f92')
+         .then(response => response.json())
+         .then(data => {
+             // Extract relevant pollution data
+             const pollutionData = data.data;
+
+             // Display the data
+             const pollutionDiv = document.getElementById('pollutionData');
+             pollutionDiv.innerHTML = `
+                 <h2>City: ${pollutionData.city.name}</h2>
+                 <p>Air Quality Index (AQI): ${pollutionData.aqi}</p>
+                 <p>Time: ${pollutionData.time.s}</p>
+             `;
+         })
+         .catch(error => {
+             console.error('Error fetching data:', error);
+         });
+ </script>
+
+-->
+<h1>Pollution Prediction</h1>
+<label for="cityInput">Enter City Name:</label>
+<input type="text" id="cityInput">
+<button onclick="getPollutionData()">Get Pollution Data</button>
+
+<div id="pollutionData"></div>
+
+<script>
+    function getPollutionData() {
+        const city = document.getElementById('cityInput').value;
+
+        // Fetch data from API for the entered city
+        fetch(`https://api.waqi.info/feed/${city}/?token=8ad82558bf8d0036a9a4737f1fe5d71b1d5a5f92`)
+            .then(response => response.json())
+            .then(data => {
+                // Check if the city is found
+                if (data.status === 'ok') {
+                    // Extract relevant pollution data
+                    const pollutionData = data.data;
+
+                    // Display the data
+                    const pollutionDiv = document.getElementById('pollutionData');
+                    pollutionDiv.innerHTML = `
+                        <h2>City: ${pollutionData.city.name}</h2>
+                        <p>Air Quality Index (AQI): ${pollutionData.aqi}</p>
+                        <p>Time: ${pollutionData.time.s}</p>
+                    `;
+                } else {
+                    // If city not found, display an error message
+                    const pollutionDiv = document.getElementById('pollutionData');
+                    pollutionDiv.innerHTML = `<p>Error: City not found. Please enter a valid city name.</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+</script>
+
+ 
+ <!-- 
+     <div id="toggle-buttons">
+    <div class="toggle-button-container">
+      <div class="toggle-buttons">
+        <button onclick="toggleWeather()" class="active">Weather</button>
+        <button onclick="toggleAQI()">AQI</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="location-info">
+    <div id="current-location">
+      <strong>Current Location:</strong> <span id="userLocation">Loading...</span>
+    </div>
+    <div id="place-name">
+      <strong>District:</strong> <span id="userDistrict">Unable to retrieve location</span>
+    </div>
+  </div>
+ -->
+
+ <!-- -->
+
+  <script src="scriptaqi11.js"></script>
+</body>
+</html>

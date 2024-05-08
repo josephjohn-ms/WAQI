@@ -1,0 +1,377 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: 'Nanum Myeongjo', serif;
+    background-image: url("images/cloud bg.jpg");
+}
+  header {
+    background-color: #4d99e7;
+    color: #fff;
+    padding: 15px;
+    text-align: right;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  /* forecast img*/
+  img {
+    /* overflow-clip-margin: content-box;
+     overflow: clip; */
+     max-width: 100px;
+     align-items: center;
+   }
+   
+  #toggle-buttons {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 20px;
+    color: #ffffff;
+  }
+  
+  #mainh1 {
+    margin: 0;
+    text-align: center;
+    flex-grow: 1;
+  }
+  
+  #celsius {
+    margin: 0;
+    text-align: center;
+    font-size: 80px;
+    color:#ffffff;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #6ca9ea;
+    padding: 10px;
+    
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    border-color: #333;
+    color: #ffffff;
+    
+  }
+  
+  #location-info {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  #current-location {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  #place-name {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    nav {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  #toggle-buttons {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .toggle-button-container {
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .toggle-buttons {
+    display: flex;
+  }
+  
+  .toggle-buttons button {
+    margin: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-buttons button:hover {
+    background-color: #2980b9;
+  }
+  
+  .toggle-buttons button.active {
+    background-color: #2ecc71;
+    border-radius: 5px;
+    margin-right: -5px;
+  }
+  
+  
+  
+.search{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search input{
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    color: #555;
+    padding: 10px 25px;
+    height: 60px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 18px;
+}
+.search button{
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+.search button img{
+    width: 16px;
+}
+.weather-icon{
+    width: 170px;
+    margin-top: 30px;
+}
+.weather h1{
+    font-size: 80px;
+    font-weight: 500;
+}
+.weather h2{
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: -10px;
+}
+.details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 50px;
+}
+.col{
+    display: flex;
+    align-items: center;
+    text-align: left;
+}
+.col img{
+    width: 40px;
+    margin-right: 10px;
+}
+.humidity, .wind{
+    font-size: 18px;
+    margin-top: -6px;
+}
+/* new css */
+/* Your CSS styles here */
+/* You can copy and paste your existing CSS styles for the card, search input, weather, etc. */
+
+/* Example CSS styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f2f1f6;
+}
+
+.card {
+  width: 90%;
+  max-width: 470px;
+  background: linear-gradient(135deg, #058bf2, #f2f1f6);
+  color: #fff;
+  margin: 100px auto 0;
+  border-radius: 20px;
+  padding: 40px 35px;
+  text-align: center;
+}
+
+.search {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search input {
+  border: 0;
+  outline: 0;
+  background: #ebfffc;
+  color: #555;
+  padding: 10px 25px;
+  height: 60px;
+  border-radius: 30px;
+  flex: 1;
+  margin-right: 16px;
+  font-size: 18px;
+}
+
+.search button {
+  border: 0;
+  outline: 0;
+  background: #ebfffc;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.weather-icon {
+  width: 170px;
+  margin-top: 30px;
+}
+
+.weather h1 {
+  font-size: 80px;
+  font-weight: 500;
+}
+
+.weather h2 {
+  font-size: 45px;
+  font-weight: 400;
+  margin-top: -10px;
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-top: 50px;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+.col img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.humidity, .wind {
+  font-size: 18px;
+  margin-top: -6px;
+}
+/* forecast styles */
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+label {
+  font-size: 16px;
+}
+
+#cityInput {
+  width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.forecast-container {
+  margin-top: 20px;
+  display: flex; /* Make the forecast items display horizontally */
+  flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+}
+
+.forecast-day {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px; /* Adjust spacing between forecast boxes */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
+  text-align: center; /* Center the content within each box */
+  width: calc(33% - 20px); /* Set width for each box considering margin */
+}
+
+.forecast-day h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.forecast-item {
+  margin-bottom: 5px;
+}
+
+.forecast-item p {
+  margin: 5px 0;
+}
+
+.weather-icon {
+  width: 1.0px; /* Adjust image size as needed */
+  height: 10px; /* Adjust image size as needed */
+  margin: 0 auto; /* Center the image within the box */
+}
+/* forecast image adj */
+.forecast-box {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  align-items: center;
+}
+.image-container img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
